@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDN Web Docs - Redesign 2025</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #030304;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-muted: #888899;
+            --accent-html: #E44D26;
+            --accent-css: #264DE4;
+            --accent-js: #F7DF1E;
+            --accent-api: #00D8FF;
+            --glow-color: rgba(255, 255, 255, 0.15);
+            --font-ui: 'Inter', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-ui);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Effet de bruit de fond (Grain) */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Arrière-plan Aurora (Lueurs) */
+        .aurora {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(66, 0, 255, 0.15), transparent 60%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 0, 100, 0.1), transparent 50%);
+            z-index: -1;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Layout Principal */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.05em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo span { color: var(--text-main); }
+        .logo::before {
+            content: 'MDN';
+            background: linear-gradient(90deg, #fff, #999);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: white; }
+
+        /* Section HERO */
+        .hero {
+            padding: 8rem 0 6rem;
+            position: relative;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            margin-bottom: 2rem;
+            background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        /* Barre de recherche "Command Palette" */
+        .search-container {
+            position: relative;
+            max-width: 600px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            padding: 1.5rem 1.5rem 1.5rem 3.5rem;
+            border-radius: 12px;
+            color: white;
+            font-family: var(--font-code);
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .search-input:focus {
+            outline: none;
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.3);
+            box-shadow: 0 0 0 4px rgba(255,255,255,0.05);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.5;
+        }
+
+        .kbd-shortcut {
+            position: absolute;
+            right: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* BENTO GRID */
+        .grid-section {
+            padding: 4rem 0;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            grid-auto-rows: minmax(280px, auto);
+        }
+
+        /* Carte de style Bento avec effet Spotlight */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* L'effet Spotlight via JS */
+        .card::before {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            left: 0;
+            top: 0;
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y), 
+                rgba(255, 255, 255, 0.06),
+                transparent 40%
+            );
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* Contenu de la carte */
+        .card-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            padding: 10px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            font-family: var(--font-code);
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .code-snippet {
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            background: rgba(0,0,0,0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            color: #d4d4d4;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Classes spécifiques aux technos */
+        .html-card h3 { color: var(--accent-html); }
+        .css-card h3 { color: var(--accent-css); }
+        .js-card h3 { color: var(--accent-js); }
+        .api-card h3 { color: var(--accent-api); }
+
+        .card-cta {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .arrow { transition: transform 0.2s; }
+        .card:hover .arrow { transform: translateX(5px); }
+
+        /* Section "Latest" */
+        .latest-section {
+            padding: 4rem 0;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .list-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .list-item:hover {
+            background: rgba(255,255,255,0.06);
+        }
+
+        .tag {
+            padding: 4px 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            margin-right: 1rem;
+        }
+
+        footer {
+            padding: 4rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--card-border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Code coloring simulation */
+        .tok-kw { color: #c678dd; }
+        .tok-str { color: #98c379; }
+        .tok-tag { color: #e06c75; }
+        .tok-attr { color: #d19a66; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .hero { padding: 4rem 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+    <div class="aurora"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="white" stroke-width="2" fill="none"/>
+                    <path d="M8 10L6 12L8 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 10L18 12L16 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 16V8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Références</a></li>
+                    <li><a href="#">Guides</a></li>
+                    <li><a href="#">Plus</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <h1>Des ressources pour les<br>Bâtisseurs du Web.</h1>
+            <p>La source de vérité pour HTML, CSS et JavaScript. Documenté par la communauté, pour le futur d'internet.</p>
+            
+            <div class="search-container">
+                <span class="search-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </span>
+                <input type="text" class="search-input" placeholder="Rechercher une API, un élément, une propriété...">
+                <span class="kbd-shortcut">CTRL + K</span>
+            </div>
+        </section>
+
+        <section class="grid-section">
+            <div class="bento-grid" id="cards-container">
+                
+                <div class="card html-card">
+                    <div class="card-content">
+                        <div class="card-icon">&lt;/&gt;</div>
+                        <h3>HTML</h3>
+                        <p>Structure sémantique et contenu.</p>
+                        <div class="code-snippet">
+                            <span class="tok-tag">&lt;main&gt;</span><br>
+                            &nbsp;&nbsp;<span class="tok-tag">&lt;h1&gt;</span><span class="tok-str">Hello</span><span class="tok-tag">&lt;/h1&gt;</span><br>
+                            <span class="tok-tag">&lt;/main&gt;</span>
+                        </div>
+                    </div>
+                    <div class="card-cta">Explorer HTML <span class="arrow">→</span></div>
+                </div>
+
+                <div class="card css-card">
+                    <div class="card-content">
+                        <div class="card-icon">#</div>
+                        <h3>CSS</h3>
+                        <p>Design, layout et animations.</p>
+                        <div class="code-snippet">
+                            <span class="tok-tag">body</span> {<br>
+                            &nbsp;&nbsp;<span class="tok-attr">display</span>: <span class="tok-kw">grid</span>;<br>
+                            &nbsp;&nbsp;<span class="tok-attr">gap</span>: <span class="tok-str">1rem</span>;<br>
+                            }
+                        </div>
+                    </div>
+                    <div class="card-cta">Explorer CSS <span class="arrow">→</span></div>
+                </div>
+
+                <div class="card js-card">
+                    <div class="card-content">
+                        <div class="card-icon">{}</div>
+                        <h3>JavaScript</h3>
+                        <p>Logique interactive et dynamique.</p>
+                        <div class="code-snippet">
+                            <span class="tok-kw">const</span> web = <span class="tok-kw">new</span> <span class="tok-tag">Future</span>();<br>
+                            web.<span class="tok-attr">init</span>();
+                        </div>
+                    </div>
+                    <div class="card-cta">Explorer JS <span class="arrow">→</span></div>
+                </div>
+
+                <div class="card api-card" style="grid-column: span 1;">
+                    <div class="card-content">
+                        <div class="card-icon">API</div>
+                        <h3>Web APIs</h3>
+                        <p>Interfaces navigateur : DOM, Fetch, WebGL, et plus.</p>
+                    </div>
+                    <div class="card-cta">Voir les références <span class="arrow">→</span></div>
+                </div>
+                 <div class="card" style="grid-column: span 1;">
+                    <div class="card-content">
+                        <div class="card-icon">HTTP</div>
+                        <h3>Protocole</h3>
+                        <p>Codes d'état, en-têtes et méthodes.</p>
+                    </div>
+                    <div class="card-cta">Comprendre le réseau <span class="arrow">→</span></div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="latest-section">
+            <div class="section-header">
+                <div class="section-title">Nouveautés</div>
+                <a href="#" style="color:white; text-decoration:none; border-bottom:1px solid #fff;">Voir tout</a>
+            </div>
+            
+            <div class="list-group">
+                <div class="list-item">
+                    <div>
+                        <span class="tag" style="color:var(--accent-css)">CSS</span>
+                        <span>Nouvelles unités de viewport (dvh, lvh)</span>
+                    </div>
+                    <span style="color:var(--text-muted)">Il y a 2j</span>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <span class="tag" style="color:var(--accent-js)">JS</span>
+                        <span>Array.prototype.with()</span>
+                    </div>
+                    <span style="color:var(--text-muted)">Il y a 5j</span>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <span class="tag" style="color:var(--accent-html)">HTML</span>
+                        <span>L'élément &lt;search&gt;</span>
+                    </div>
+                    <span style="color:var(--text-muted)">Il y a 1sem</span>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2025 Mozilla et contributeurs individuels. Contenu sous licence Creative Commons.</p>
+            <div style="margin-top:1rem; opacity: 0.5; font-family: var(--font-code);">
+                <a href="#" style="color:inherit; margin:0 10px;">GitHub</a>
+                <a href="#" style="color:inherit; margin:0 10px;">Discord</a>
+                <a href="#" style="color:inherit; margin:0 10px;">À propos</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Effet Spotlight interactif
+        const cardsContainer = document.getElementById("cards-container");
+        const cards = document.querySelectorAll(".card");
+
+        cardsContainer.onmousemove = e => {
+            for(const card of cards) {
+                const rect = card.getBoundingClientRect(),
+                      x = e.clientX - rect.left,
+                      y = e.clientY - rect.top;
+
+                card.style.setProperty("--mouse-x", `${x}px`);
+                card.style.setProperty("--mouse-y", `${y}px`);
+            }
+        }
+
+        // Focus search shortcut
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.querySelector('.search-input').focus();
+            }
+        });
+    </script>
+</body>
+</html>
