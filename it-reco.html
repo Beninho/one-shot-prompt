@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT-RECO | Le Futur du Hardware</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #050505;
+            --surface-color: #0F0F11;
+            --accent-color: #ADFF2F; /* Green Acid */
+            --text-primary: #EDEDED;
+            --text-secondary: #888888;
+            --border-color: #333333;
+            --glass: rgba(255, 255, 255, 0.05);
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            overflow-x: hidden;
+            cursor: none; /* Custom cursor */
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--accent-color);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+        }
+        .cursor.active {
+            transform: scale(2.5);
+            background: var(--accent-color);
+            opacity: 0.5;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 0.95;
+            text-transform: uppercase;
+        }
+        
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 8rem);
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text-primary);
+            position: relative;
+        }
+        
+        .hero-title span {
+            display: block;
+            color: var(--text-primary);
+        }
+
+        .highlight {
+            color: var(--accent-color);
+        }
+
+        p {
+            line-height: 1.6;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- LAYOUT UTILS --- */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-padding {
+            padding: 8rem 0;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-family: var(--font-code);
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .nav-btn {
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            border: 1px solid var(--border-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            border-color: var(--accent-color);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-content {
+            z-index: 2;
+        }
+
+        .tagline {
+            font-family: var(--font-code);
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* --- BENTO GRID SERVICES --- */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(2, minmax(300px, auto));
+            gap: 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .bento-item {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.4s ease, border-color 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-item:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+
+        .bento-item h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .bento-item.large {
+            grid-column: span 8;
+        }
+        .bento-item.medium {
+            grid-column: span 4;
+        }
+        .bento-item.tall {
+            grid-column: span 4;
+            grid-row: span 2;
+        }
+
+        @media (max-width: 1024px) {
+            .bento-item.large, .bento-item.medium, .bento-item.tall {
+                grid-column: span 12;
+            }
+        }
+
+        /* --- PROCESS SCROLL --- */
+        .process-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 4rem;
+            opacity: 0.2;
+            transition: opacity 0.5s ease;
+        }
+
+        .process-step.active {
+            opacity: 1;
+        }
+
+        .step-number {
+            font-family: var(--font-code);
+            font-size: 4rem;
+            color: var(--border-color);
+            margin-right: 2rem;
+            line-height: 1;
+        }
+
+        .step-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 4rem 2rem;
+            text-align: center;
+            background: var(--surface-color);
+        }
+
+        .cta-huge {
+            font-size: clamp(2rem, 5vw, 4rem);
+            display: inline-block;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .cta-huge:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- ANIMATION UTILS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Glitch Effect on Text */
+        .glitch-wrapper {
+            display: inline-block;
+            position: relative;
+        }
+        
+        .bg-gradient {
+            position: absolute;
+            top: 20%;
+            right: 10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(173,255,47,0.1) 0%, rgba(5,5,5,0) 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+
+    <header>
+        <div class="logo">IT-RECO<span style="color:var(--accent-color)">.</span></div>
+        <a href="mailto:contact@it-reco.fr" class="nav-btn hover-trigger">Démarrer l'Audit</a>
+    </header>
+
+    <main>
+        <section class="hero container">
+            <div class="bg-gradient"></div>
+            <div class="hero-content">
+                <span class="tagline reveal">Lille Métropole — Hardware Resurrection</span>
+                <h1 class="hero-title reveal">
+                    L'OBSOLESCENCE <br>
+                    <span>EST UN CHOIX.</span>
+                </h1>
+                <p class="reveal" style="max-width: 600px; margin-bottom: 3rem;">
+                    Windows 11 ne sera pas la fin de votre parc informatique. 
+                    Nous auditons, wipons et upgradons vos machines sous <span class="highlight">Linux</span>.
+                    Rentabilité immédiate. Impact carbone minimal.
+                </p>
+                <div class="reveal">
+                    <a href="#process" class="nav-btn hover-trigger">Découvrir le protocole</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="container section-padding">
+            <h2 class="reveal" style="margin-bottom: 3rem;">Nos Solutions <span class="highlight">Radicales</span></h2>
+            
+            <div class="bento-grid">
+                <div class="bento-item large reveal hover-trigger">
+                    <span style="font-family: var(--font-code); color: var(--accent-color);">01.</span>
+                    <div>
+                        <h3>Migration Linux</h3>
+                        <p>Ne jetez plus vos PC fonctionnels. Nous installons un OS léger, sécurisé et rapide pour prolonger leur vie de 5 à 10 ans.</p>
+                    </div>
+                </div>
+                
+                <div class="bento-item medium reveal hover-trigger">
+                    <span style="font-family: var(--font-code); color: var(--accent-color);">02.</span>
+                    <div>
+                        <h3>Data Wiping</h3>
+                        <p>Effacement militaire des données. Vos secrets industriels disparaissent à jamais.</p>
+                    </div>
+                </div>
+
+                <div class="bento-item tall reveal hover-trigger">
+                    <span style="font-family: var(--font-code); color: var(--accent-color);">03.</span>
+                    <div>
+                        <h3>Rachat & Revente</h3>
+                        <p>Valorisation immédiate de votre stock dormant. Nous rachetons ou revendons pour vous.</p>
+                        <br>
+                        <p style="font-size: 0.9rem; opacity: 0.7;">> iMac<br>> Dell Latitude<br>> Lenovo Thinkpad</p>
+                    </div>
+                </div>
+
+                <div class="bento-item medium reveal hover-trigger">
+                    <span style="font-family: var(--font-code); color: var(--accent-color);">04.</span>
+                    <div>
+                        <h3>Audit sur site</h3>
+                        <p>Déplacement sur la métropole Lilloise. Estimation précise et transparente.</p>
+                    </div>
+                </div>
+
+                <div class="bento-item large reveal hover-trigger">
+                    <span style="font-family: var(--font-code); color: var(--accent-color);">05.</span>
+                    <div>
+                        <h3>Impact RSE</h3>
+                        <p>Réduisez votre bilan carbone. Intégrez l'économie circulaire dans votre ADN d'entreprise.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="process" class="container section-padding">
+            <h2 class="reveal" style="margin-bottom: 4rem;">Le Protocole <span class="highlight">IT-RECO</span></h2>
+            
+            <div class="process-step hover-trigger">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                    <h3>Audit & Estimation</h3>
+                    <p>Inspection visuelle et technique de vos actifs. Chiffrage immédiate du potentiel de revente.</p>
+                </div>
+            </div>
+
+            <div class="process-step hover-trigger">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                    <h3>Nettoyage Profond</h3>
+                    <p>Dépoussiérage physique et logique. Effacement certifié des disques durs.</p>
+                </div>
+            </div>
+
+            <div class="process-step hover-trigger">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                    <h3>Upgrade Système</h3>
+                    <p>Ajout de SSD, augmentation de RAM et déploiement de Linux Mint pour une fluidité retrouvée.</p>
+                </div>
+            </div>
+
+            <div class="process-step hover-trigger">
+                <div class="step-number">04</div>
+                <div class="step-content">
+                    <h3>Seconde Vie</h3>
+                    <p>Mise en vente sur notre boutique ou réintégration dans votre parc.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="hover-trigger">
+            <p style="font-family: var(--font-code); margin-bottom: 1rem;">Prêt pour la mise à jour ?</p>
+            <a href="mailto:contact@it-reco.fr" class="cta-huge">CONTACT@IT-RECO.FR</a>
+            <div style="margin-top: 3rem; display: flex; justify-content: center; gap: 2rem; font-family: var(--font-code); font-size: 0.8rem;">
+                <span>LILLE, FRANCE</span>
+                <span>SIRET: 51298050900024</span>
+                <span>© 2025 CYRIL TONNEVILLE</span>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Custom Cursor Logic
+        const cursor = document.querySelector('.cursor');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        hoverTriggers.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                cursor.classList.add('active');
+            });
+            link.addEventListener('mouseleave', () => {
+                cursor.classList.remove('active');
+            });
+        });
+
+        // Intersection Observer for Reveal Animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Special logic for process steps to light up
+                    if (entry.target.classList.contains('process-step')) {
+                        entry.target.classList.add('active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .process-step').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
