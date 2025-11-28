@@ -398,7 +398,7 @@ Livrable : <span class="keyword">UN fichier HTML</span> avec JS/CSS.
                 // Remove loader
                 loader.remove();
 
-                projects.forEach(project => {
+                projects.reverse().forEach(project => {
                     const card = document.createElement('div');
                     card.className = 'card project-card';
                     card.innerHTML = `
