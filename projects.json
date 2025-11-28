@@ -63,6 +63,15 @@
         "original_url": "https://ansm.sante.fr/"
     },
     {
+        "id": "colorazen",
+        "name": "Colorazen",
+        "description": "Le site de coloriages pour adultes",
+        "icon": "🎨",
+        "author": "Geoffrey Monté",
+        "gemini_url": "colorazen.html",
+        "original_url": "https://colorazen.com/"
+    },
+    {
         "id": "gemini",
         "name": "Gemini",
         "description": "Gemini is a general-purpose AI model developed by Google.",
