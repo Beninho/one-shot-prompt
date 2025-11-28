@@ -117,13 +117,22 @@
         "original_url": "https://www.grafikart.fr/"
     },
     {
-      "id": "lequipe",
-      "name": "L'Équipe",
-      "description": "Le sport en direct sur L'Équipe.",
-      "icon": "⚽",
-      "author": "Beninho",
-      "gemini_url": "lequipe.html",
-      "original_url": "https://www.lequipe.fr/"
+        "id": "lequipe",
+        "name": "L'Équipe",
+        "description": "Le sport en direct sur L'Équipe.",
+        "icon": "⚽",
+        "author": "Beninho",
+        "gemini_url": "lequipe.html",
+        "original_url": "https://www.lequipe.fr/"
+    },
+    {
+        "id": "itreco",
+        "name": "It-reco",
+        "description": "Site vitrine de la micro entreprise IT-RECO spécialisé dans le reconditionnement d'ordinateurs.",
+        "icon": "🌱",
+        "author": "Cyril T.",
+        "gemini_url": "it-reco.html",
+        "original_url": "https://it-reco.fr/"
     },
     {
         "id": "lemonde",
