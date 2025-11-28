@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorazen | Art for the Soul</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #ffffff;
+            --accent-primary: #b026ff;
+            --accent-secondary: #00d4ff;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --card-hover: rgba(255, 255, 255, 0.1);
+            --font-main: 'Outfit', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Utilities */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            box-shadow: 0 0 20px rgba(176, 38, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(176, 38, 255, 0.6);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 1000;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 300;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('colorazen_hero_art.png'); /* Updated to local file */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.6;
+            z-index: -1;
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            text-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 20px 30px;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 1.2rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent-secondary);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .section-title span {
+            border-bottom: 3px solid var(--accent-primary);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background: var(--card-hover);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-color: var(--accent-primary);
+        }
+
+        .card-img {
+            height: 250px;
+            background-color: #222;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .card-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .card-category {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-secondary);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 20px;
+        }
+
+        .card-link {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .card-link:hover {
+            color: var(--accent-secondary);
+        }
+
+        /* Footer */
+        footer {
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 50px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">COLORAZEN</div>
+                <div class="nav-links">
+                    <a href="#">Categories</a>
+                    <a href="#">New</a>
+                    <a href="#">Popular</a>
+                    <a href="#">About</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1>Escape into Color.</h1>
+            <p>Discover thousands of free printable coloring pages for adults. Stress relief, creativity, and mindfulness await.</p>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search for mandalas, animals, flowers..." id="searchInput">
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery container">
+        <h2 class="section-title"><span>Featured Collections</span></h2>
+        <div class="grid" id="galleryGrid">
+            
+            <div class="card" data-title="Thanksgiving Feast">
+                <div class="card-img" style="background-image: url('https://img.colorazen.com/media/mini_1024/generations/intricate-thanksgiving-feast-scene-coloring-page-w-69273fceaa5e3.jpg');"></div>
+                <div class="card-content">
+                    <span class="card-category">Holiday</span>
+                    <h3 class="card-title">Thanksgiving Feast</h3>
+                    <p class="card-desc">Intricate scene of a festive feast, perfect for holiday relaxation.</p>
+                    <a href="#" class="card-link">Download PDF &rarr;</a>
+                </div>
+            </div>
+
+            <div class="card" data-title="Feast Details">
+                <div class="card-img" style="background-image: url('https://img.colorazen.com/media/mini_1024/generations/intricate-thanksgiving-feast-scene-coloring-page-69273f64f2b69.jpg');"></div>
+                <div class="card-content">
+                    <span class="card-category">Holiday</span>
+                    <h3 class="card-title">Feast Details</h3>
+                    <p class="card-desc">Close-up details of a thanksgiving spread waiting for your colors.</p>
+                    <a href="#" class="card-link">Download PDF &rarr;</a>
+                </div>
+            </div>
+
+            <div class="card" data-title="Advanced Art">
+                <div class="card-img" style="background-image: url('https://img.colorazen.com/media/mini_1024/generations/black-and-white-line-art-coloring-page-for-advance-69180edfc0e48.jpg');"></div>
+                <div class="card-content">
+                    <span class="card-category">Advanced</span>
+                    <h3 class="card-title">Complex Lines</h3>
+                    <p class="card-desc">A challenging pattern for advanced colorists seeking deep focus.</p>
+                    <a href="#" class="card-link">Download PDF &rarr;</a>
+                </div>
+            </div>
+
+            <div class="card" data-title="Celebration">
+                <div class="card-img" style="background-image: url('https://img.colorazen.com/media/mini_1024/generations/two-ornate-beer-glasses-clinking-together-in-a-cel-68fc58e797c48.jpg');"></div>
+                <div class="card-content">
+                    <span class="card-category">Drinks</span>
+                    <h3 class="card-title">Cheers!</h3>
+                    <p class="card-desc">Two ornate beer glasses clinking together in celebration.</p>
+                    <a href="#" class="card-link">Download PDF &rarr;</a>
+                </div>
+            </div>
+
+             <div class="card" data-title="Abstract Lines">
+                <div class="card-img" style="background-image: url('https://img.colorazen.com/media/mini_1024/generations/a-black-and-white-line-drawing-for-adult-coloring-68f5584ed3154.jpg');"></div>
+                <div class="card-content">
+                    <span class="card-category">Abstract</span>
+                    <h3 class="card-title">Flowing Lines</h3>
+                    <p class="card-desc">Smooth, flowing black and white lines creating a soothing abstract shape.</p>
+                    <a href="#" class="card-link">Download PDF &rarr;</a>
+                </div>
+            </div>
+
+            <div class="card" data-title="Detailed Pattern">
+                <div class="card-img" style="background-image: url('https://img.colorazen.com/media/mini_1024/generations/black-and-white-coloring-page-line-art-featuring-a-6927ee1b6154c.jpg');"></div>
+                <div class="card-content">
+                    <span class="card-category">Pattern</span>
+                    <h3 class="card-title">Intricate Pattern</h3>
+                    <p class="card-desc">A highly detailed pattern designed to test your precision and patience.</p>
+                    <a href="#" class="card-link">Download PDF &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Colorazen Redesign. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Simple search filter
+        const searchInput = document.getElementById('searchInput');
+        const cards = document.querySelectorAll('.card');
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            
+            cards.forEach(card => {
+                const title = card.getAttribute('data-title').toLowerCase();
+                const category = card.querySelector('.card-category').textContent.toLowerCase();
+                
+                if (title.includes(term) || category.includes(term)) {
+                    card.style.display = 'block';
+                    // Add a small animation when showing
+                    card.style.animation = 'fadeIn 0.5s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Add fade in animation keyframes
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

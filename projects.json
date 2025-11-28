@@ -61,5 +61,14 @@
         "author": "Mike Dreeman",
         "gemini_url": "ansm.html",
         "original_url": "https://www.ansm.fr/"
+    },
+    {
+        "id": "colorazen",
+        "name": "Colorazen",
+        "description": "Le site de coloriages pour adultes",
+        "icon": "🎨",
+        "author": "Geoffrey Monté",
+        "gemini_url": "colorazen.html",
+        "original_url": "https://colorazen.com/"
     }
 ]
