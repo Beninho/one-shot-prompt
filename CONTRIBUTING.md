@@ -1,6 +1,6 @@
 # Comment Contribuer à l'Expérience "One Shot Prompt" 🚀
 
-Merci de vouloir participer à cette expérience collaborative ! Le but est de tester les capacités des LLM (comme Gemini 3 Pro, GPT-4, Claude 3.5, etc.) avec un **prompt unique** et de voir comment ils réinterprètent le design de sites web existants.
+Merci de vouloir participer à cette expérience collaborative ! Le but est de tester les capacités de Gemini 3 Pro avec un **prompt unique** et de voir comment il réinterprète le design de sites web existants.
 
 ## 🧪 Le Concept
 
