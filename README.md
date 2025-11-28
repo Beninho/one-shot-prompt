@@ -1,6 +1,6 @@
 # One Shot Prompt Experiment 🚀
 
-> Une expérience collaborative pour tester les capacités de design "One Shot" des LLM.
+> Une expérience collaborative pour tester les capacités de design "One Shot" de Gemini 3 Pro.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
