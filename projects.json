@@ -88,5 +88,14 @@
         "author": "Ibes Mongabure",
         "gemini_url": "kuartz.html",
         "original_url": "https://www.kuartz.eu/"
+    },
+    {
+        "id": "mdn",
+        "name": "MDN Web Docs",
+        "description": "Des ressources pour les Bâtisseurs du Web.",
+        "icon": "🦊",
+        "author": "Frulko",
+        "gemini_url": "mdn.html",
+        "original_url": "https://developer.mozilla.org/"
     }
 ]
